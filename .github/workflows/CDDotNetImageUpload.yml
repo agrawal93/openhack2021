@@ -16,6 +16,6 @@ jobs:
           registry: openhack3mg4iju8acr.azurecr.io
           repository: apis/poi
           tag_with_ref: true
-          dockerfile: apis/poi/Dockerfile
+          dockerfile: apis/poi/
           path: apis/poi
    
