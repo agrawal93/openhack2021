@@ -42,8 +42,8 @@ jobs:
           registry: docker.pkg.github.com
           repository: $GITHUB_REPOSITORY/image
           tag_with_ref: true
-#        run: |
-#          echo "Building API-TRIPS image..."
-#          echo "Changing directory to $GITOHTEAMDIRPATH/apis/trips..."
-#          cd "$GITOHTEAMDIRPATH/apis/trips"
-#          az acr build --image "devopsoh/api-trips:${BASEIMAGETAG}" --registry $ACRNAME --file Dockerfile .
+        run: |
+          echo "Building API-TRIPS image..."
+          echo "Changing directory to $GITOHTEAMDIRPATH/apis/trips..."
+          cd "$GITOHTEAMDIRPATH/apis/trips"
+          az acr build --image "devopsoh/api-trips:${BASEIMAGETAG}" --registry $ACRNAME --file Dockerfile .
