@@ -27,7 +27,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Builds Trips Package
-        run: go run main.go
+        run: go build
         working-directory: ./apis/trips
       # Runs a set of commands using the runners shell
       - name: Run Unit Tests on Trips Package
