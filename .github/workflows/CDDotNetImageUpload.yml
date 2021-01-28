@@ -1,0 +1,21 @@
+name: .NET
+
+on: [push]
+jobs:
+  push_to_registries:
+    name: Push Docker image 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Push 
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          registry: openhack3mg4iju8acr.azurecr.io
+          repository: apis/poi
+          tag_with_ref: true
+          dockerfile: apis/poi/Dockerfile
+          path: apis/poi
+   
