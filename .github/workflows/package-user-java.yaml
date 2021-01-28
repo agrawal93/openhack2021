@@ -28,6 +28,6 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           registry: openhack3mg4iju8acr.azurecr.io
           repository: team-3/user-java
-          tag_with_sha: true
+          tags: latest,${{ github.sha }}
           dockerfile: apis/user-java/Dockerfile
           path: apis/user-java
