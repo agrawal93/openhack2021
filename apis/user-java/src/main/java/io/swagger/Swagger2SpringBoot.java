@@ -9,6 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
 @EntityScan(
         basePackageClasses = {Swagger2SpringBoot.class, Jsr310JpaConverters.class}
 )

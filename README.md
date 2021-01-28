@@ -1,6 +1,6 @@
 # Project Name
 
-The DevOps open hack event is designed to foster learning via implementing DevOps practices with a series of challenges.
+The DevOps open hack event is designed to foster learning via implementing DevOps practices with a series of challenges. 
 
 ## Architecture
 
@@ -26,7 +26,7 @@ To understand each of the components above in more detail, please visit the read
 It is useful but not required to have a basic knowledge of the following topics:
 
 * Kubernetes
-* Azure DevOps (formally VSTS) or Jenkins
+* Azure DevOps (formally VSTS) or Jenkins 
 
 ## Resources
 
