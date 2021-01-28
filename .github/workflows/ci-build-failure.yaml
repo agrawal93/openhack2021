@@ -36,5 +36,8 @@ jobs:
 
       - name: Always Build failure step to create Issue
         uses: JasonEtco/create-an-issue@v2
+        with:
+          filename: .github/workflows/MODIFIED_ISSUE_TEMPLATE.md
         env:
           GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
+          TITLE: Dummy Issue
