@@ -47,6 +47,7 @@ jobs:
       - id: stage_healthcheck
         name: Validate Stage Healthcheck
         run: |
+          sleep 10s
           status=$(curl -sS "http://openhack3mg4iju8userjava-staging.azurewebsites.net/api/healthcheck/user-java" | jq .status)
           echo "${status}"
           echo "::set-output name=STATUS::${status}"
