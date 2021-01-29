@@ -44,7 +44,7 @@ jobs:
 #           images: 'openhack3mg4iju8acr.azurecr.io/team-3/user-java:${{ github.sha }}'
 #           slot-name: staging
     
-      - id: healthcheck
+      - id: stage_healthcheck
         name: Validate Stage Healthcheck
         run: |
           status=$(curl -sS "http://openhack3mg4iju8userjava-staging.azurewebsites.net/api/healthcheck/user-java" | jq .status)
@@ -58,7 +58,7 @@ jobs:
       
       - name: Promote Deployment - Swap Stage with Production
         uses: azure/CLI@v1
-        if: steps.healthcheck.outputs.STATUS == '"healthy"'
+        if: steps.stage_healthcheck.outputs.STATUS == '"healthy"'
         with:
           azcliversion: 2.18.0
           inlineScript: |
@@ -67,7 +67,22 @@ jobs:
               -n openhack3mg4iju8userjava \
               --slot staging \
               --target-slot production
-    
-      - name: Rollback Deployment
-        if: steps.healthcheck.outputs.STATUS != '"healthy"'
-        run: echo "Rolling Back Deployment because status is ${{ steps.healthcheck.outputs.STATUS }}"
+
+      - id: prod_healthcheck
+        name: Validate Production Healthcheck
+        run: |
+          status=$(curl -sS "http://openhack3mg4iju8userjava.azurewebsites.net/api/healthcheck/user-java" | jq .status)
+          echo "${status}"
+          echo "::set-output name=STATUS::${status}"
+
+      - name: Rollback Deployment - Swap Production with Stage
+        uses: azure/CLI@v1
+        if: steps.prod_healthcheck.outputs.STATUS != '"healthy"'
+        with:
+          azcliversion: 2.18.0
+          inlineScript: |
+            az webapp deployment slot swap \
+              -g openhack3mg4iju8rg \
+              -n openhack3mg4iju8userjava \
+              --slot staging \
+              --target-slot production
