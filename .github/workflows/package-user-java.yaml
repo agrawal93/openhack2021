@@ -32,30 +32,41 @@ jobs:
 #           dockerfile: apis/user-java/Dockerfile
 #           path: apis/user-java
 
-#       - name: Deploy User-Java Project
+  deploy:
+    needs: [ package ]
+    runs-on: ubuntu-latest
+    steps:
+#       - name: Deploy User-Java Project on Stage
 #         uses: azure/webapps-deploy@v2
 #         with:
 #           app-name: 'openhack3mg4iju8userjava'
 #           publish-profile: ${{ secrets.OH_UJ_PUBLISH_PROFILE_STAGE }}
 #           images: 'openhack3mg4iju8acr.azurecr.io/team-3/user-java:${{ github.sha }}'
 #           slot-name: staging
-
+    
       - id: healthcheck
-        name: Run Healthcheck
+        name: Validate Stage Healthcheck
         run: |
-          test=$(curl -sS "http://openhack3mg4iju8userjava-staging.azurewebsites.net/api/healthcheck/user-java")
-          echo "${test}"
-          
-          test2=$(echo ${test} | jq .)
-          echo "${test2}"
-          
           status=$(curl -sS "http://openhack3mg4iju8userjava-staging.azurewebsites.net/api/healthcheck/user-java" | jq .status)
           echo "${status}"
           echo "::set-output name=STATUS::${status}"
       
-      - name: Promote Deployment
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+      - name: Promote Deployment - Swap Stage with Production
+        uses: azure/CLI@v1
         if: steps.healthcheck.outputs.STATUS == '"healthy"'
-        run: echo "Promoting Deployment because status is ${{ steps.healthcheck.outputs.STATUS }}"
+        with:
+          azcliversion: 2.18.0
+          inlineScript: |
+            az webapp deployment slot swap \
+              -g openhack3mg4iju8rg \
+              -n openhack3mg4iju8userjava \
+              --slot staging \
+              --target-slot production
     
       - name: Rollback Deployment
         if: steps.healthcheck.outputs.STATUS != '"healthy"'
