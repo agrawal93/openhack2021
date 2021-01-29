@@ -38,3 +38,4 @@ jobs:
           app-name: 'openhack3mg4iju8userjava'
           publish-profile: ${{ secrets.OH_PUBLISH_PROFILE }}
           images: 'openhack3mg4iju8acr.azurecr.io/team-3/user-java:${{ github.sha }}'
+          slot-name: staging
