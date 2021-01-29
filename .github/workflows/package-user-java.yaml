@@ -39,3 +39,17 @@ jobs:
           publish-profile: ${{ secrets.OH_UJ_PUBLISH_PROFILE_STAGE }}
           images: 'openhack3mg4iju8acr.azurecr.io/team-3/user-java:${{ github.sha }}'
           slot-name: staging
+
+      - id: healthcheck
+        name: Run Healthcheck
+        run: |
+          status=$(curl -sS "http://openhack3mg4iju8userjava-staging.azurewebsites.net/api/healthcheck/user-java" | jq .status)
+          echo "::set-output name=STATUS::${status}"
+      
+      - name: Promote Deployment
+        if: ${{ steps.healthcheck.STATUS }} == "healthy"
+        run: echo "Promoting Deployment"
+    
+      - name: Rollback Deployment
+        if: ${{ steps.healthcheck.STATUS }} != "healthy"
+        run: echo "Rolling Back Deployment"
