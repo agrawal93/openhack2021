@@ -43,7 +43,14 @@ jobs:
       - id: healthcheck
         name: Run Healthcheck
         run: |
+          test=$(curl -sS "http://openhack3mg4iju8userjava-staging.azurewebsites.net/api/healthcheck/user-java")
+          echo "${test}"
+          
+          test2=$(echo ${test} | jq .)
+          echo "${test2}"
+          
           status=$(curl -sS "http://openhack3mg4iju8userjava-staging.azurewebsites.net/api/healthcheck/user-java" | jq .status)
+          echo "${status}"
           echo "::set-output name=STATUS::${status}"
       
       - name: Promote Deployment
