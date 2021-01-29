@@ -54,9 +54,9 @@ jobs:
           echo "::set-output name=STATUS::${status}"
       
       - name: Promote Deployment
-        if: steps.healthcheck.STATUS == '"healthy"'
-        run: echo "Promoting Deployment because status is ${{ steps.healthcheck.STATUS }}"
+        if: steps.healthcheck.outputs.STATUS == '"healthy"'
+        run: echo "Promoting Deployment because status is ${{ steps.healthcheck.outputs.STATUS }}"
     
       - name: Rollback Deployment
-        if: steps.healthcheck.STATUS != '"healthy"'
-        run: echo "Rolling Back Deployment because status is ${{ steps.healthcheck.STATUS }}"
+        if: steps.healthcheck.outputs.STATUS != '"healthy"'
+        run: echo "Rolling Back Deployment because status is ${{ steps.healthcheck.outputs.STATUS }}"
