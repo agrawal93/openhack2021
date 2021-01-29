@@ -21,28 +21,28 @@ jobs:
       - name: Checkout Project
         uses: actions/checkout@v2
 
-#       - name: Build and Push Docker Image
-#         uses: docker/build-push-action@v1
-#         with:
-#           username: ${{ secrets.DOCKER_USERNAME }}
-#           password: ${{ secrets.DOCKER_PASSWORD }}
-#           registry: openhack3mg4iju8acr.azurecr.io
-#           repository: team-3/user-java
-#           tags: latest,${{ github.sha }}
-#           dockerfile: apis/user-java/Dockerfile
-#           path: apis/user-java
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          registry: openhack3mg4iju8acr.azurecr.io
+          repository: team-3/user-java
+          tags: latest,${{ github.sha }}
+          dockerfile: apis/user-java/Dockerfile
+          path: apis/user-java
 
   deploy:
     needs: [ package ]
     runs-on: ubuntu-latest
     steps:
-#       - name: Deploy User-Java Project on Stage
-#         uses: azure/webapps-deploy@v2
-#         with:
-#           app-name: 'openhack3mg4iju8userjava'
-#           publish-profile: ${{ secrets.OH_UJ_PUBLISH_PROFILE_STAGE }}
-#           images: 'openhack3mg4iju8acr.azurecr.io/team-3/user-java:${{ github.sha }}'
-#           slot-name: staging
+      - name: Deploy User-Java Project on Stage
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'openhack3mg4iju8userjava'
+          publish-profile: ${{ secrets.OH_UJ_PUBLISH_PROFILE_STAGE }}
+          images: 'openhack3mg4iju8acr.azurecr.io/team-3/user-java:${{ github.sha }}'
+          slot-name: staging
     
       - id: stage_healthcheck
         name: Validate Stage Healthcheck
